@@ -13,6 +13,7 @@ export class ProductListComponent implements OnInit {
 
   products: Product[] = [];
   filteredProducts:Product[] =[];
+  sortOrder:string ="";
 
 constructor(private productService: ProductService,
   private cartService: CartService,
@@ -45,7 +46,19 @@ constructor(private productService: ProductService,
     this.filteredProducts=this.products.filter(
       product=>product.name.toLocaleLowerCase().includes(searchTerm)
     )
+
+    this.sortProducts(this.sortOrder)
   }
+
+sortProducts(sortValue:string){
+  this.sortOrder=sortValue;
+
+  if(this.sortOrder==="priceLowHigh"){
+    this.filteredProducts.sort((a,b)=>a.price-b.price)
+  }else if(this.sortOrder==="priceHighLow"){
+    this.filteredProducts.sort((a,b)=>b.price-a.price)
+  }
+}
 
 
 }

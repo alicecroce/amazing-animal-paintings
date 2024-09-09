@@ -19,4 +19,6 @@ mat-card {
   -o-transition: transform 0.2s;
 }
 
-
+.sort-dropdown {
+  margin-left: 20px;
+}
