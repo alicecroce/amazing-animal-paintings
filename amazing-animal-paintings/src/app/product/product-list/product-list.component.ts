@@ -3,6 +3,7 @@ import { ProductService } from '../product.service';
 import { Product } from 'app/models/product';
 import { CartService } from 'app/cart/cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -11,14 +12,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ProductListComponent implements OnInit {
 
   products: Product[] = [];
+  filteredProducts:Product[] =[];
 
 constructor(private productService: ProductService,
   private cartService: CartService,
-private snackbar: MatSnackBar){}
+  private snackbar: MatSnackBar,){}
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe(data=>{
       this.products = data;
+      this.filteredProducts = data;
     });
   }
 
@@ -32,6 +35,16 @@ private snackbar: MatSnackBar){}
         })
       }
     });
+  }
+
+  applyFilter(event:Event):void{
+    let searchTerm=(event.target as HTMLInputElement).value;
+    searchTerm = searchTerm.toLocaleLowerCase();
+
+    //filtra i prodotti per creare un array di prodotti validi
+    this.filteredProducts=this.products.filter(
+      product=>product.name.toLocaleLowerCase().includes(searchTerm)
+    )
   }
 
 
